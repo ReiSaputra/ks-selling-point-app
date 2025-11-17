@@ -19,7 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedBigInteger('order_id');
             $table->string('product_sku');
             $table->decimal('price', 15, 2);
-            $table->decimal('actual_price', 15, 2);
+            $table->decimal('actual_price', 15, 2)->nullable();
             $table->decimal('product_cost', 15, 2)->default(0);
             $table->unsignedInteger('quantity');
             $table->decimal('subtotal', 15, 2);
@@ -34,6 +34,7 @@ class CreateOrderDetailsTable extends Migration
      *
      * @return void
      */
+    
     public function down()
     {
         Schema::dropIfExists('order_details');
