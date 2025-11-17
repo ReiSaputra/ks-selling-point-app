@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route("order-list");
 });
 
 /**
@@ -33,7 +35,7 @@ Route::prefix("auth")->group(function () {
  * Admin route (protected by auth middleware)
  */
 Route::middleware(["auth"])->group(function () {
-    Route::get("/dashboard", function () {
-        return view("dashboard");
-    }); 
+    Route::get("/order-list", "OrderListController@show")->name("order-list");
+    Route::post("/order-list", "OrderListController@preview")->name("order-list.preview");
+    Route::post("/order-list/perform", "OrderListController@perform")->name("order-list.perform");
 });
