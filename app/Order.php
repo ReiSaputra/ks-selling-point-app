@@ -22,11 +22,10 @@ class Order extends Model
         'vat',
         'total',
         'payment_type',
-        'user_id'
     ];
 
     protected $casts = [
-        'coupon' => 'array',  // json → otomatis array
+        'coupon' => 'array',
         'subtotal' => 'decimal:2',
         'discount' => 'decimal:2',
         'shipping_cost' => 'decimal:2',

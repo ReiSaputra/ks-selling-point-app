@@ -121,13 +121,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('order-list') }}" class="nav-link">
+                            <a href="{{ route('upload-csv') }}" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Upload CSV</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('order-list') }}" class="nav-link">
+                            <a href="{{ route('report') }}" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Laporan</p>
                             </a>
@@ -167,7 +167,7 @@
                 <div class="container-fluid">
                     <div class="d-flex justify-content-end mb-3">
                         <form method="POST" enctype="multipart/form-data"
-                            action="{{ route('order-list.preview') }}">
+                            action="{{ route('upload-csv.preview') }}">
                             @csrf
                             <div class="input-group">
                                 <input type="file" name="file" class="form-control" accept=".csv" required>
@@ -202,7 +202,6 @@
                                             <th>Vat</th>
                                             <th>Total</th>
                                             <th>Payment type</th>
-                                            <th>User Id</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -219,7 +218,7 @@
 
                             </div>
                             <!-- Tombol Save / Cancel -->
-                            <form method="POST" class="p-4">
+                            <form method="POST" class="p-4" action="{{ route('upload-csv.perform') }}">
                                 @csrf
                                 <input type="hidden" name="data" value="{{ json_encode($preview) }}" />
 
