@@ -32,8 +32,6 @@ class CreateOrdersTable extends Migration
             $table->decimal('total', 15, 2)->default(0);
             $table->string('payment_type')->nullable();
             $table->timestamps();
-
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

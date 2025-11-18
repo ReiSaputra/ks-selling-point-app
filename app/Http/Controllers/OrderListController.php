@@ -3,30 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use App\Order;
 use Illuminate\Http\Request;
 
 class OrderListController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        return view("layouts.app");
-    }
+        $orders = $request->query("search") ? Order::all() : Order::all();
 
-    public function preview(Request $request)
-    {
-        $path = $request->file('file')->getRealPath();
-        $f = fopen($path, 'r');
-
-        $data = [];
-        while (($row = fgetcsv($f, 0, ',')) !== false) {
-            $data[] = $row;
-        }
-
-        // dd($data);
-        
         return view("layouts.app", [
-            "preview" => $data
+            "data" => $orders
         ]);
     }
 }

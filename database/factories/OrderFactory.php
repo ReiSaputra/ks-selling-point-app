@@ -24,7 +24,6 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'vat'                => $faker->randomFloat(2, 1000, 7000),
         'total'              => $faker->randomFloat(2, 15000, 2000000),
         'payment_type'       => $faker->randomElement(['ovo','gopay','transfer']),
-        'user_id'            => \App\User::inRandomOrder()->first()->id,
     ];
 });
 
