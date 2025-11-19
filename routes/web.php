@@ -38,8 +38,7 @@ Route::middleware(["auth"])->group(function () {
     Route::get("/order-list", "OrderListController@show")->name("order-list");
 
     Route::get("/upload-csv", "UploadCSVController@show")->name("upload-csv");
-    Route::post("/upload-csv", "UploadCSVController@preview")->name("upload-csv.preview");
-    Route::post("/upload-csv/perform", "UploadCSVController@perform")->name("upload-csv.perform");
+    Route::post("/upload-csv", "UploadCSVController@perform")->name("upload-csv.perform");
 
     Route::get("/report", "ReportController@show")->name("report");
 });

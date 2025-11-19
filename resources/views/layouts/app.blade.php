@@ -167,7 +167,7 @@
                 <div class="container-fluid">
                     <div class="d-flex justify-content-end mb-3">
                         <form method="POST" enctype="multipart/form-data"
-                            action="{{ route('upload-csv.preview') }}">
+                            action="{{ route('upload-csv') }}">
                             @csrf
                             <div class="input-group">
                                 <input type="file" name="file" class="form-control" accept=".csv" required>
@@ -177,62 +177,6 @@
                             </div>
                         </form>
                     </div>
-
-                    @if (isset($preview) && count($preview) > 0)
-                        <div class="card mt-4">
-                            <div class="card-header">Preview Data CSV</div>
-
-                            <div class="card-body table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Invoice number</th>
-                                            <th>Marketplace invoice number</th>
-                                            <th>Channel</th>
-                                            <th>Subtotal</th>
-                                            <th>Discount</th>
-                                            <th>Shipping cost</th>
-                                            <th>Order status</th>
-                                            <th>Expedition</th>
-                                            <th>Shipping receipt</th>
-                                            <th>Note</th>
-                                            <th>Coupon</th>
-                                            <th>Admin fee</th>
-                                            <th>Vat</th>
-                                            <th>Total</th>
-                                            <th>Payment type</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($preview as $row)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                @foreach ($row as $val)
-                                                    <td>{{ $val }}</td>
-                                                @endforeach
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <!-- Tombol Save / Cancel -->
-                            <form method="POST" class="p-4" action="{{ route('upload-csv.perform') }}">
-                                @csrf
-                                <input type="hidden" name="data" value="{{ json_encode($preview) }}" />
-
-                                <button type="submit" class="btn btn-success">
-                                    Save to Database
-                                </button>
-
-                                <a href="{{ route('order-list') }}" class="btn btn-danger">
-                                    Cancel
-                                </a>
-                            </form>
-                        </div>
-                    @endif
-
                 </div>
                 <!--end::Container-->
             </div>
