@@ -12,7 +12,7 @@ class OrderListController extends Controller
     {
         $orders = $request->query("search") ? Order::all() : Order::all();
 
-        return view("layouts.app", [
+        return view("page.order_list", [
             "data" => $orders
         ]);
     }

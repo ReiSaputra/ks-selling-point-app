@@ -11,7 +11,7 @@ class UploadCSVController extends Controller
 {
     public function show()
     {
-        return view("layouts.app");
+        return view("page.order_list");
     }
 
     public function perform(Request $request)
