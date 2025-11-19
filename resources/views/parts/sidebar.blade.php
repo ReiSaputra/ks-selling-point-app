@@ -15,15 +15,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('order-list') }}" class="nav-link">
+                    <a href="{{ route('upload-csv') }}" class="nav-link">
                         <i class="nav-icon bi bi-circle"></i>
                         <p>Upload CSV</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('order-list') }}" class="nav-link">
+                    <a href="{{ route('report') }}" class="nav-link">
                         <i class="nav-icon bi bi-circle"></i>
-                        <p>Laporan</p>
+                        <p>Report</p>
                     </a>
                 </li>
             </ul>

@@ -8,7 +8,7 @@ class ReportController extends Controller
 {
     public function show()
     {
-        return view("layouts.app");
+        return view("page.report");
     }
 
     public function import()
@@ -18,6 +18,6 @@ class ReportController extends Controller
 
     public function export()
     {
-
+        
     }
 }
