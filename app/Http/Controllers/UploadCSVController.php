@@ -9,7 +9,7 @@ class UploadCSVController extends Controller
 {
     public function show()
     {
-        return view("layouts.app");
+        return view("page.order_list");
     }
 
     public function preview(Request $request)
@@ -22,7 +22,7 @@ class UploadCSVController extends Controller
             $data[] = $row;
         }
 
-        return view("layouts.app", [
+        return view("page.order_list", [
             "preview" => $data
         ]);
     }
