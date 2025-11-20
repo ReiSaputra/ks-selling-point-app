@@ -69,13 +69,13 @@ use App\Models\User;
 
 3.1. Perubahan dilakukan:
 
-❌ Laravel 7 (string-based controller):
+Laravel 7 (string-based controller):
 
 ```````````````````````````````````````````````````````
 Route::get('/order-list', 'OrderListController@show');
 ```````````````````````````````````````````````````````
 
-✅ Laravel 8 (array + class reference):
+Laravel 8 (array + class reference):
 
 ``````````````````````````````````````````````````````````````````
 use App\Http\Controllers\OrderListController;
@@ -125,13 +125,13 @@ class OrderFactory extends Factory
 ## 5. Update Seeder ke Format Baru
 # Seeder lama menggunakan `factory()` sudah tidak berlaku.
 
-❌ Laravel 7:
+Laravel 7:
 
     `````````````````````````````````````````
     factory(App\Order::class, 100)->create();
     `````````````````````````````````````````
 
-✅ Laravel 8:
+Laravel 8:
 
     ```````````````````````````````````````
     Order::factory()->count(100)->create();
@@ -223,3 +223,4 @@ public function details()
     - Dependency upgrade
 
     Dokumen ini dibuat untuk memudahkan developer lain memahami perubahan.
+

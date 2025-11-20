@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Support\Facades\DB;
 
 class OrdersImport implements ToCollection, WithHeadingRow, WithChunkReading, WithBatchInserts, ShouldQueue
 {
@@ -21,6 +22,9 @@ class OrdersImport implements ToCollection, WithHeadingRow, WithChunkReading, Wi
             $invoice = $row['invoice_number'];
 
             if (!isset($grouped[$invoice])) {
+                $coupons = $row['coupon'] ?? '';
+                $couponArray = array_filter(explode('|', $coupons));
+
                 $grouped[$invoice] = [
                     'order' => [
                         'invoice_number' => $row['invoice_number'],
@@ -33,11 +37,13 @@ class OrdersImport implements ToCollection, WithHeadingRow, WithChunkReading, Wi
                         'expedition' => $row['expedition'],
                         'shipping_receipt' => $row['shipping_receipt'],
                         'note' => $row['note'],
-                        'coupon' => explode('|', $row['coupon']),
+                        'coupon' => !empty($couponArray) ? json_encode($couponArray, JSON_UNESCAPED_UNICODE) : null,
                         'admin_fee' => $row['admin_fee'],
                         'vat' => $row['vat'],
                         'total' => $row['total'],
                         'payment_type' => $row['payment_type'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
                     ],
                     'details' => []
                 ];
@@ -50,23 +56,46 @@ class OrdersImport implements ToCollection, WithHeadingRow, WithChunkReading, Wi
                 'product_cost' => $row['product_cost'],
                 'quantity' => $row['quantity'],
                 'subtotal' => $row['product_subtotal'],
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
 
+        $existingInvoices = Order::whereIn('invoice_number', array_keys($grouped))
+            ->pluck('id', 'invoice_number')
+            ->toArray();
+
+        $ordersToInsert = [];
+        $detailsToInsert = [];
+
         foreach ($grouped as $invoice => $data) {
-
-            $existing = Order::where('invoice_number', $invoice)->first();
-
-            if ($existing) {
-                $order = $existing;
-            } else {
-                $order = Order::create($data['order']);
+            if (!isset($existingInvoices[$invoice])) {
+                $ordersToInsert[$invoice] = $data['order'];
             }
+        }
+
+        if ($ordersToInsert) {
+            DB::table('orders')->insert($ordersToInsert);
+
+            $newOrders = Order::whereIn('invoice_number', array_keys($ordersToInsert))
+                ->pluck('id', 'invoice_number')
+                ->toArray();
+
+            $existingInvoices = array_merge($existingInvoices, $newOrders);
+        }
+
+        foreach ($grouped as $invoice => $data) {
+            $orderId = $existingInvoices[$invoice];
 
             foreach ($data['details'] as $detail) {
-                $detail['order_id'] = $order->id;
-                OrderDetail::create($detail);
+                $detail['order_id'] = $orderId;
+                $detailsToInsert[] = $detail;
             }
+        }
+
+        $chunks = array_chunk($detailsToInsert, 1000);
+        foreach ($chunks as $chunk) {
+            DB::table('order_details')->insert($chunk);
         }
     }
 
