@@ -23,10 +23,10 @@ Dokumen ini berisi catatan seluruh perubahan yang dilakukan dalam proses upgrade
 
 1.5. Setelah update, jalankan:
 
-    ```
+    ```````````````````````````````````
     composer update
     composer install
-    ```
+    ```````````````````````````````````
 
 
 ## 2. Pemindahan Model ke Folder Baru (app/Models)
@@ -43,25 +43,25 @@ Dokumen ini berisi catatan seluruh perubahan yang dilakukan dalam proses upgrade
 2.2. Mengubah namespace:
 dari:
 
-```
+```````````````````````````````````
 namespace App;
-```
+```````````````````````````````````
 
 menjadi:
 
-```
+```````````````````````````````````
 namespace App\Models;
-```
+```````````````````````````````````
 
 2.3. Perubahan import di controller, factory, dan seeder:
 
 Contoh:
 
-```
+```````````````````````````````````
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\User;
-```
+```````````````````````````````````
 
 
 ## 3. Perubahan Route Syntax (Breaking Change Laravel 8)
@@ -71,19 +71,18 @@ use App\Models\User;
 
 ❌ Laravel 7 (string-based controller):
 
-```
+```````````````````````````````````````````````````````
 Route::get('/order-list', 'OrderListController@show');
-```
+```````````````````````````````````````````````````````
 
 ✅ Laravel 8 (array + class reference):
 
-```
+``````````````````````````````````````````````````````````````````
 use App\Http\Controllers\OrderListController;
 Route::get('/order-list', [OrderListController::class, 'show']);
-```
+``````````````````````````````````````````````````````````````````
 
 3.2. Semua route dalam `web.php` sudah diperbarui ke format Laravel 8.
-
 
 
 ## 4. Migrasi Factory Lama → Factory Baru (Class-Based)
@@ -103,7 +102,7 @@ Route::get('/order-list', [OrderListController::class, 'show']);
 
 4.1. Menggunakan struktur:
 
-```
+```````````````````````````````````
 class OrderFactory extends Factory
 {
     protected $model = Order::class;
@@ -113,13 +112,14 @@ class OrderFactory extends Factory
         return [ ... ];
     }
 }
-```
+```````````````````````````````````
 
 4.2. Model wajib ditambahkan trait:
 
-```
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-```
+    ```````````````````````````````````````````````````````
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
+    ```````````````````````````````````````````````````````
+
 
 
 ## 5. Update Seeder ke Format Baru
@@ -127,20 +127,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 ❌ Laravel 7:
 
-```
-factory(App\Order::class, 100)->create();
-```
+    `````````````````````````````````````````
+    factory(App\Order::class, 100)->create();
+    `````````````````````````````````````````
 
 ✅ Laravel 8:
 
-```
-Order::factory()->count(100)->create();
-```
+    ```````````````````````````````````````
+    Order::factory()->count(100)->create();
+    ```````````````````````````````````````
 
 5.1. Seeder yang diperbarui:
 
-- `OrdersTableSeeder.php`
-- `DatabaseSeeder.php`
+    - `OrdersTableSeeder.php`
+    - `DatabaseSeeder.php`
 
 
 
@@ -149,78 +149,77 @@ Order::factory()->count(100)->create();
 
 ### Order.php
 
-```
+``````````````````````````````````````````````
 public function details()
 {
     return $this->hasMany(OrderDetail::class);
 }
-```
+``````````````````````````````````````````````
 
 ### OrderDetail.php
 
-```
-public function order()
-{
-    return $this->belongsTo(Order::class);
-}
-```
+    ``````````````````````````````````````````
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+    ``````````````````````````````````````````
 
 
 ## 7. Update Auth Model Path
 
 7.1. Karena User pindah ke `app/Models/User.php`, maka:
 
-`config/auth.php`:
+    `config/auth.php`:
 
-```
-'model' => App\Models\User::class,
-```
+    ````````````````````````````````
+    'model' => App\Models\User::class,
+    ````````````````````````````````
 
 
 ## 8. Perintah Setelah Upgrade
 
-Setelah upgrade, jalankan perintah berikut:
+8.1. Setelah upgrade, jalankan perintah berikut:
 
-```
-composer dump-autoload
-php artisan migrate
-php artisan db:seed
-php artisan config:clear
-php artisan route:clear
-php artisan cache:clear
-```
+    ````````````````````````````````
+    composer dump-autoload
+    php artisan migrate
+    php artisan db:seed
+    php artisan config:clear
+    php artisan route:clear
+    php artisan cache:clear
+    ````````````````````````````````
 
-Jika database ingin fresh:
+8.2. Jika database ingin fresh:
 
-```
-php artisan migrate:fresh --seed
-```
+    ````````````````````````````````
+    php artisan migrate:fresh --seed
+    ````````````````````````````````
 
 
 ## 9. Git Workflow (Branch Upgrade)
 
-Buat branch baru:
+9.1. Buat branch baru:
 
-```
-git checkout -b upgrade-laravel-7-to-8
-```
+    ````````````````````````````````````
+    git checkout -b upgrade-laravel-7-to-8
+    ````````````````````````````````````
 
-Setelah update selesai:
+9.2. Setelah update selesai:
 
-```
-git add .
-git commit -m "Upgrade Laravel 7 to Laravel 8: model restructure, route namespace fix, new factories, seeder update, composer update"
-git push origin upgrade-laravel-7-to-8
-```
+    ````````````````````````````````
+    git add .
+    git commit -m "Upgrade Laravel 7 to Laravel 8: model restructure, route namespace fix, new factories, seeder update, composer update"
+    git push origin upgrade-laravel-7-to-8
+    ````````````````````````````````
 
-# Upgrade Completed
+# 10. Upgrade Completed
+# Proyek telah resmi kompatibel dengan Laravel 8, termasuk pembaruan besar seperti:
 
-Proyek telah resmi kompatibel dengan Laravel 8, termasuk pembaruan besar seperti:
+    - Route middleware syntax baru
+    - Model folder
+    - Factory system modern
+    - Seeder modern
+    - Dependency upgrade
 
-- Route middleware syntax baru
-- Model folder
-- Factory system modern
-- Seeder modern
-- Dependency upgrade
-
-Dokumen ini dibuat untuk memudahkan developer lain memahami perubahan.
+    Dokumen ini dibuat untuk memudahkan developer lain memahami perubahan.
