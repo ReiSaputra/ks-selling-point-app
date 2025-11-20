@@ -10,13 +10,13 @@ Dokumen ini berisi catatan seluruh perubahan yang dilakukan dalam proses upgrade
     - `"laravel/framework"` → `^8.0`
     - `"php"` → `^7.3`
 
-1.2. Tambah:
+1.2. Tambah Library baru:
     - `"fakerphp/faker": "^1.9.1"`
 
-1.3. Hapus:
+1.3. Hapus Library:
     - `fzaninotto/faker`
 
-1.4. Update versi agar kompatibel:
+1.4. Update versi Library agar kompatibel:
     - `"guzzlehttp/guzzle": "^7.0.1"`
     - `"nunomaduro/collision": "^5.0"`
     - `"phpunit/phpunit": "^9.0"`
