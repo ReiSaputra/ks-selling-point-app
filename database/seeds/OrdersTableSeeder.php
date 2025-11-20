@@ -10,8 +10,8 @@ class OrdersTableSeeder extends Seeder
     public function run()
     {
         factory(App\Order::class, 10000)->create()->each(function ($order) {
-            $order->details()->saveMany(
-                factory(App\OrderDetail::class, rand(1, 5))->make()
+            $order->details()->save(
+                factory(App\OrderDetail::class)->make()
             );
         });
     }

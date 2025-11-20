@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item active">
-                            <a href="{{ route('order-list') }}">Order List</a>
+                            <a href="{{ route('upload-csv') }}">Upload CSV</a>
                         </li>
                     </ol>
                 </div>
@@ -25,7 +25,7 @@
 
             <!-- Upload CSV -->
             <div class="d-flex justify-content-end mb-3">
-                <form method="POST" enctype="multipart/form-data" action="{{ route('order-list.preview') }}">
+                <form method="POST" enctype="multipart/form-data" action="{{ route('upload-csv.preview') }}">
                     @csrf
                     <div class="input-group">
                         <input type="file" name="file" class="form-control" accept=".csv" required>
