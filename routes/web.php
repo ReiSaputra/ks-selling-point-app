@@ -15,33 +15,33 @@ Route::get('/', function () {
 /**
  * Authentication route
  */
-Route::prefix("auth")->group(function () {
+Route::prefix('auth')->group(function () {
 
-    Route::get("/login", [AuthController::class, 'showLogin'])->name("login");
-    Route::post("/login", [AuthController::class, 'login'])->name("login.perform");
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.perform');
 
-    Route::get("/register", [AuthController::class, 'showRegister'])->name("register");
-    Route::post("/register", [AuthController::class, 'register'])->name("register.perform");
-
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.perform');
 });
 
 /**
  * Admin route (protected by auth middleware)
  */
-Route::middleware(["auth"])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
-    Route::get("/order-list", [OrderListController::class, 'show'])->name("order-list");
+    Route::get('/order-list', [OrderListController::class, 'show'])->name('order-list');
 
-    Route::get("/upload-csv", [UploadCSVController::class, 'show'])->name("upload-csv");
-    Route::post("/upload-csv", [UploadCSVController::class, 'preview'])->name("upload-csv.preview");
-    Route::post("/upload-csv/perform", [UploadCSVController::class, 'perform'])->name("upload-csv.perform");
+    Route::get('/upload-csv', [UploadCSVController::class, 'show'])->name('upload-csv');
+    Route::post('/upload-csv', [UploadCSVController::class, 'preview'])->name('upload-csv.preview');
+    Route::post('/upload-csv/perform', [UploadCSVController::class, 'perform'])->name('upload-csv.perform');
 
-    Route::get("/report", [ReportController::class, 'show'])->name("report");
+    Route::get('/report', [ReportController::class, 'show'])->name('report');
 
-    Route::get("/report/channel", "ReportController@showChannel")->name("report.channel");
-    Route::get("/report/channel/export", "ReportController@exportPerChannel")->name("report.channel.export");
-    Route::get("/report/product", "ReportController@showProduct")->name("report.product");
-    Route::get("/report/product/export", "ReportController@exportPerProduct")->name("report.product.export");
+    Route::get('/report/channel', [ReportController::class, 'showChannel'])->name('report.channel');
+    Route::get('/report/channel/export', [ReportController::class, 'exportPerChannel'])->name('report.channel.export');
 
-    Route::get("/logout", "AuthController@logout")->name("logout");
+    Route::get('/report/product', [ReportController::class, 'showProduct'])->name('report.product');
+    Route::get('/report/product/export', [ReportController::class, 'exportPerProduct'])->name('report.product.export');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
