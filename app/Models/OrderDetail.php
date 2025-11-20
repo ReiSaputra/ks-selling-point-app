@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderDetail extends Model
 {
+    use HasFactory;
+
     protected $table = 'order_details';
 
     protected $fillable = [
@@ -25,7 +28,6 @@ class OrderDetail extends Model
         'subtotal' => 'decimal:2',
     ];
 
-    // relasi ke order
     public function order()
     {
         return $this->belongsTo(Order::class);

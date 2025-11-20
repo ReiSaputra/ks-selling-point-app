@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'invoice_number',
         'marketplace_invoice',
@@ -34,13 +37,11 @@ class Order extends Model
         'total' => 'decimal:2',
     ];
 
-    // relasi: order dimiliki oleh user
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // relasi: order memiliki banyak detail
     public function details()
     {
         return $this->hasMany(OrderDetail::class);

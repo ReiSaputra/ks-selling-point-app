@@ -28,24 +28,8 @@
                     <h5 class="card-title mb-0">Filter</h5>
                 </div>
 
-<<<<<<< HEAD
-            <!-- Upload CSV -->
-            <div class="d-flex justify-content-end mb-3">
-                <form method="POST" enctype="multipart/form-data" action="{{ route('upload-csv.preview') }}">
-                    @csrf
-                    <div class="input-group">
-                        <input type="file" name="file" class="form-control" accept=".csv" required>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-upload"></i> Import CSV
-                        </button>
-                    </div>
-                </form>
-            </div>
-=======
                 <div class="card-body">
                     <form method="get" class="row g-3">
->>>>>>> 6577602c74c25c80eb4cdf246bba6fec5096ff4e
-
                         <!-- Search -->
                         <div class="col-md-3">
                             <label class="form-label">Search Invoice</label>
