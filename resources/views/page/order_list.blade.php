@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item active">
-                            <a href="{{ route('order-list') }}">Order List</a>
+                            <a href="{{ route('upload-csv') }}">Upload CSV</a>
                         </li>
                     </ol>
                 </div>
@@ -30,7 +30,6 @@
 
                 <div class="card-body">
                     <form method="get" class="row g-3">
-
                         <!-- Search -->
                         <div class="col-md-3">
                             <label class="form-label">Search Invoice</label>

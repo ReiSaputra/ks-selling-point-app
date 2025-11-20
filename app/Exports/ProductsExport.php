@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\OrderDetail;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;

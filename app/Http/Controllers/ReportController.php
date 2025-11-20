@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\ChannelsExport;
 use App\Exports\ProductsExport;
-use App\Order;
-use App\OrderDetail;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
