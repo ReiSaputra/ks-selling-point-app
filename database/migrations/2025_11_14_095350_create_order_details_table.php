@@ -25,6 +25,10 @@ class CreateOrderDetailsTable extends Migration
             $table->decimal('subtotal', 15, 2);
             $table->timestamps();
 
+            $table->index("created_at");
+            $table->index("product_sku");
+            $table->index("order_id");
+
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
@@ -34,7 +38,7 @@ class CreateOrderDetailsTable extends Migration
      *
      * @return void
      */
-    
+
     public function down()
     {
         Schema::dropIfExists('order_details');

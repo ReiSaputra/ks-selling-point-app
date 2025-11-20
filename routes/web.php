@@ -38,4 +38,10 @@ Route::middleware(["auth"])->group(function () {
 
     Route::get("/report", [ReportController::class, 'show'])->name("report");
 
+    Route::get("/report/channel", "ReportController@showChannel")->name("report.channel");
+    Route::get("/report/channel/export", "ReportController@exportPerChannel")->name("report.channel.export");
+    Route::get("/report/product", "ReportController@showProduct")->name("report.product");
+    Route::get("/report/product/export", "ReportController@exportPerProduct")->name("report.product.export");
+
+    Route::get("/logout", "AuthController@logout")->name("logout");
 });
