@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Order;
+use App\Models\Order;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
