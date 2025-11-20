@@ -4,9 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderListController;
-use App\Http\Controllers\UploadCSVController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UploadCSVController;
 
 Route::get('/', function () {
     return redirect()->route("order-list");

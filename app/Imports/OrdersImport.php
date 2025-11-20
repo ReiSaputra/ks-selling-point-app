@@ -2,8 +2,8 @@
 
 namespace App\Imports;
 
-use App\Order;
-use App\OrderDetail;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
