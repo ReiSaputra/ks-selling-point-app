@@ -55,6 +55,7 @@
                             <table class="table table-bordered table-striped">
                                 <thead class="table-dark">
                                     <tr>
+                                        <th>#</th>
                                         <th>SKU</th>
                                         <th>Total Qty</th>
                                         <th>Total Revenue</th>
@@ -64,6 +65,7 @@
                                 <tbody>
                                     @foreach ($data as $row)
                                         <tr>
+                                            <td>{{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}</td>
                                             <td>{{ $row->product_sku }}</td>
                                             <td>{{ $row->total_qty }}</td>
                                             <td>Rp {{ number_format($row->total_revenue, 0, ',', '.') }}</td>

@@ -109,7 +109,7 @@
                     <table class="table table-bordered text-nowrap">
                         <thead class="table-light">
                             <tr>
-                                <th>#</th>
+                                <th>No</th>
                                 <th>Invoice Number</th>
                                 <th>Marketplace Invoice</th>
                                 <th>Channel</th>
