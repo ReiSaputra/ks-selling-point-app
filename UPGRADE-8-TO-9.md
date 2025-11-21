@@ -1,4 +1,4 @@
-# UPGRADE-7-TO-8.md
+# UPGRADE-8-TO-9.md
 # Upgrade Laravel 8 → Laravel 9 — Change Log
 
 Dokumen ini berisi catatan seluruh perubahan yang dilakukan dalam proses upgrade proyek dari Laravel 8.x ke Laravel 9.x, termasuk update dependensi, optimasi kueri model, dan perintah yang perlu dijalankan setelah upgrade.

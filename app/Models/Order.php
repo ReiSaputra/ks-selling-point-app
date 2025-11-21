@@ -42,6 +42,7 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    // relasi
     public function details()
     {
         return $this->hasMany(OrderDetail::class);
