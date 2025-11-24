@@ -11,7 +11,7 @@ class OrdersTableSeeder extends Seeder
     public function run()
     {
         Order::factory()
-            ->count(100)
+            ->count(10000)
             ->create()
             ->each(function ($order) {
                 $order->details()->save(
