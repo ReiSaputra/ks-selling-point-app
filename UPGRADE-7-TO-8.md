@@ -1,25 +1,20 @@
 # UPGRADE-7-TO-8.md
+
 # Upgrade Laravel 7 → Laravel 8 — Change Log
 
 Dokumen ini berisi catatan seluruh perubahan yang dilakukan dalam proses upgrade proyek dari Laravel 7.x ke Laravel 8.x, termasuk update dependensi, perbaikan struktur model, migrasi factory baru, perubahan namespace routing, dan perintah yang perlu dijalankan setelah upgrade.
 
 ## 1. Update Framework & Dependencies
+
 ### composer.json
 
-1.1. Perubahan yang dilakukan:
-    - `"laravel/framework"` → `^8.0`
-    - `"php"` → `^7.3`
+1.1. Perubahan yang dilakukan: - `"laravel/framework"` → `^8.0` - `"php"` → `^7.3`
 
-1.2. Tambah Library baru:
-    - `"fakerphp/faker": "^1.9.1"`
+1.2. Tambah Library baru: - `"fakerphp/faker": "^1.9.1"`
 
-1.3. Hapus Library:
-    - `fzaninotto/faker`
+1.3. Hapus Library: - `fzaninotto/faker`
 
-1.4. Update versi Library agar kompatibel:
-    - `"guzzlehttp/guzzle": "^7.0.1"`
-    - `"nunomaduro/collision": "^5.0"`
-    - `"phpunit/phpunit": "^9.0"`
+1.4. Update versi Library agar kompatibel: - `"guzzlehttp/guzzle": "^7.0.1"` - `"nunomaduro/collision": "^5.0"` - `"phpunit/phpunit": "^9.0"`
 
 1.5. Setelah update, jalankan:
 
@@ -28,81 +23,82 @@ Dokumen ini berisi catatan seluruh perubahan yang dilakukan dalam proses upgrade
     composer install
     ```````````````````````````````````
 
-
 ## 2. Pemindahan Model ke Folder Baru (app/Models)
+
 # Laravel 8 memperkenalkan folder default untuk model.
 
 2.1. Perubahan dilakukan:
 
-- Membuat folder `app/Models/`
-- Memindahkan model:
-  - `Order.php`
-  - `OrderDetail.php`
-  - `User.php`
+-   Membuat folder `app/Models/`
+-   Memindahkan model:
 
-2.2. Mengubah namespace:
-dari:
+    -   `Order.php`
+    -   `OrderDetail.php`
+    -   `User.php`
 
-```````````````````````````````````
+    2.2. Mengubah namespace:
+    dari:
+
+```
 namespace App;
-```````````````````````````````````
+```
 
 menjadi:
 
-```````````````````````````````````
+```
 namespace App\Models;
-```````````````````````````````````
+```
 
 2.3. Perubahan import di controller, factory, dan seeder:
 
 Contoh:
 
-```````````````````````````````````
+```
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\User;
-```````````````````````````````````
-
+```
 
 ## 3. Perubahan Route Syntax (Breaking Change Laravel 8)
+
 # Laravel 8 menghapus route namespace otomatis.
 
 3.1. Perubahan dilakukan:
 
 Laravel 7 (string-based controller):
 
-```````````````````````````````````````````````````````
+```
 Route::get('/order-list', 'OrderListController@show');
-```````````````````````````````````````````````````````
+```
 
 Laravel 8 (array + class reference):
 
-``````````````````````````````````````````````````````````````````
+```
 use App\Http\Controllers\OrderListController;
 Route::get('/order-list', [OrderListController::class, 'show']);
-``````````````````````````````````````````````````````````````````
+```
 
 3.2. Semua route dalam `web.php` sudah diperbarui ke format Laravel 8.
 
-
 ## 4. Migrasi Factory Lama → Factory Baru (Class-Based)
+
 # Laravel 8 mengganti sistem factory lama.
 
 ### Factory lama (Dihapus)
 
-- `database/factories/OrderFactory.php`
-- `database/factories/OrderDetailFactory.php`
-- `database/factories/UserFactory.php`
+-   `database/factories/OrderFactory.php`
+-   `database/factories/OrderDetailFactory.php`
+-   `database/factories/UserFactory.php`
 
 ### Factory baru (Dibuat)
 
-- `database/factories/OrderFactory.php`
-- `database/factories/OrderDetailFactory.php`
-- `database/factories/UserFactory.php`
+-   `database/factories/OrderFactory.php`
+-   `database/factories/OrderDetailFactory.php`
+-   `database/factories/UserFactory.php`
 
-4.1. Menggunakan struktur:
+    4.1. Menggunakan struktur:
 
-```````````````````````````````````
+```
 class OrderFactory extends Factory
 {
     protected $model = Order::class;
@@ -112,7 +108,7 @@ class OrderFactory extends Factory
         return [ ... ];
     }
 }
-```````````````````````````````````
+```
 
 4.2. Model wajib ditambahkan trait:
 
@@ -120,9 +116,8 @@ class OrderFactory extends Factory
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     ```````````````````````````````````````````````````````
 
-
-
 ## 5. Update Seeder ke Format Baru
+
 # Seeder lama menggunakan `factory()` sudah tidak berlaku.
 
 Laravel 7:
@@ -142,19 +137,18 @@ Laravel 8:
     - `OrdersTableSeeder.php`
     - `DatabaseSeeder.php`
 
-
-
 ## 6. Update Relationship Model
+
 # Karena namespace berubah, relasi disesuaikan:
 
 ### Order.php
 
-``````````````````````````````````````````````
+```
 public function details()
 {
     return $this->hasMany(OrderDetail::class);
 }
-``````````````````````````````````````````````
+```
 
 ### OrderDetail.php
 
@@ -165,7 +159,6 @@ public function details()
     }
     ``````````````````````````````````````````
 
-
 ## 7. Update Auth Model Path
 
 7.1. Karena User pindah ke `app/Models/User.php`, maka:
@@ -175,7 +168,6 @@ public function details()
     ````````````````````````````````
     'model' => App\Models\User::class,
     ````````````````````````````````
-
 
 ## 8. Perintah Setelah Upgrade
 
@@ -196,7 +188,6 @@ public function details()
     php artisan migrate:fresh --seed
     ````````````````````````````````
 
-
 ## 9. Git Workflow (Branch Upgrade)
 
 9.1. Buat branch baru:
@@ -214,6 +205,7 @@ public function details()
     ````````````````````````````````
 
 # 10. Upgrade Completed
+
 # Proyek telah resmi kompatibel dengan Laravel 8, termasuk pembaruan besar seperti:
 
     - Route middleware syntax baru
@@ -223,4 +215,3 @@ public function details()
     - Dependency upgrade
 
     Dokumen ini dibuat untuk memudahkan developer lain memahami perubahan.
-

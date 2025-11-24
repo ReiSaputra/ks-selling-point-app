@@ -2,8 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\Order;
-use App\Models\OrderDetail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -22,8 +20,7 @@ class OrdersImport implements ToCollection, WithHeadingRow, WithChunkReading, Wi
             $invoice = $row['invoice_number'];
 
             if (!isset($grouped[$invoice])) {
-                $coupons = $row['coupon'] ?? '';
-                $couponArray = array_filter(explode('|', $coupons));
+                $couponArray = array_filter(explode('|', $row['coupon'] ?? ''));
 
                 $grouped[$invoice] = [
                     'order' => [
@@ -37,7 +34,7 @@ class OrdersImport implements ToCollection, WithHeadingRow, WithChunkReading, Wi
                         'expedition' => $row['expedition'],
                         'shipping_receipt' => $row['shipping_receipt'],
                         'note' => $row['note'],
-                        'coupon' => !empty($couponArray) ? json_encode($couponArray, JSON_UNESCAPED_UNICODE) : null,
+                        'coupon' => $couponArray ? json_encode($couponArray) : null,
                         'admin_fee' => $row['admin_fee'],
                         'vat' => $row['vat'],
                         'total' => $row['total'],
@@ -61,42 +58,48 @@ class OrdersImport implements ToCollection, WithHeadingRow, WithChunkReading, Wi
             ];
         }
 
-        $existingInvoices = Order::whereIn('invoice_number', array_keys($grouped))
-            ->pluck('id', 'invoice_number')
-            ->toArray();
+        DB::transaction(function () use ($grouped) {
+            $invoices = array_keys($grouped);
 
-        $ordersToInsert = [];
-        $detailsToInsert = [];
-
-        foreach ($grouped as $invoice => $data) {
-            if (!isset($existingInvoices[$invoice])) {
-                $ordersToInsert[$invoice] = $data['order'];
-            }
-        }
-
-        if ($ordersToInsert) {
-            DB::table('orders')->insert($ordersToInsert);
-
-            $newOrders = Order::whereIn('invoice_number', array_keys($ordersToInsert))
+            $existing = DB::table('orders')
+                ->whereIn('invoice_number', $invoices)
                 ->pluck('id', 'invoice_number')
                 ->toArray();
 
-            $existingInvoices = array_merge($existingInvoices, $newOrders);
-        }
+            $ordersToInsert = [];
 
-        foreach ($grouped as $invoice => $data) {
-            $orderId = $existingInvoices[$invoice];
-
-            foreach ($data['details'] as $detail) {
-                $detail['order_id'] = $orderId;
-                $detailsToInsert[] = $detail;
+            foreach ($grouped as $invoice => $data) {
+                if (!isset($existing[$invoice])) {
+                    $ordersToInsert[] = $data['order'];
+                }
             }
-        }
 
-        $chunks = array_chunk($detailsToInsert, 1000);
-        foreach ($chunks as $chunk) {
-            DB::table('order_details')->insert($chunk);
-        }
+            if (!empty($ordersToInsert)) {
+                DB::table('orders')->insert($ordersToInsert);
+
+                $new = DB::table('orders')
+                    ->whereIn('invoice_number', array_column($ordersToInsert, 'invoice_number'))
+                    ->pluck('id', 'invoice_number')
+                    ->toArray();
+
+                $existing = array_merge($existing, $new);
+            }
+
+            $detailsToInsert = [];
+
+            foreach ($grouped as $invoice => $data) {
+                $orderId = $existing[$invoice];
+
+                foreach ($data['details'] as $detail) {
+                    $detail['order_id'] = $orderId;
+                    $detailsToInsert[] = $detail;
+                }
+            }
+
+            foreach (array_chunk($detailsToInsert, 1000) as $chunk) {
+                DB::table('order_details')->insert($chunk);
+            }
+        });
     }
 
     public function chunkSize(): int

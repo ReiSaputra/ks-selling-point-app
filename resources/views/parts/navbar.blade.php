@@ -14,14 +14,13 @@
         <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <span class="d-none d-md-inline">Alexander Pierce</span>
+                    <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <li class="user-header text-bg-primary">
-                        <p>Alexander Pierce</p>
+                        <p>{{ auth()->user()->name }}</p>
                     </li>
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
                         <a href="{{ route("logout") }}" class="btn btn-default btn-flat float-end">Sign out</a>
                     </li>
                 </ul>

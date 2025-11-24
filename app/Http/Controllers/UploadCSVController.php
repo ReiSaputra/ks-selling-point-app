@@ -16,6 +16,7 @@ class UploadCSVController extends Controller
     public function perform(Request $request)
     {
         set_time_limit(0);
+        
         Excel::queueImport(new OrdersImport, $request->file('file'));
 
         return redirect()->route("upload-csv")->with("success", "Data berhasil disimpan");
