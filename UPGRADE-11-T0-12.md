@@ -4,7 +4,7 @@
 
 Dokumen ini berisi seluruh perubahan yang dilakukan dalam proses upgrade proyek dari Laravel 11.x ke Laravel 12.x, termasuk update dependency, perubahan breaking changes, revisi struktur aplikasi, dan langkah-langkah yang perlu dilakukan setelah proses upgrade.
 
-------
+-------------------------------------
 
 ## 1. Update Dependency & Framework
 
