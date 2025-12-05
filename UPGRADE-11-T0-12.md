@@ -24,7 +24,3 @@ Dokumen ini berisi seluruh perubahan yang dilakukan dalam proses upgrade proyek 
 ## 2. Breaking Changes
 
 Laravel 12 tidak membawa perubahan besar seperti saat transisi ke Laravel 11, tetapi tetap ada beberapa hal yang harus diperhatikan.
-
-## 3. Kode yang perlu direvisi (contoh: pagination, factories, routes)
-
-Secara umum, upgrade 11 ⇒ 12 tidak memerlukan revisi besar.
