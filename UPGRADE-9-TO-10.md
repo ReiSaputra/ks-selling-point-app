@@ -44,7 +44,7 @@ Factory lama berbasis class tetap kompatibel, tetapi disarankan mengikuti pola L
 2.4. Middleware TrustHosts & TrustProxies
 Tidak ada breaking besar, tetapi file bawaan berubah versi.
 
-2.5 Middleware Changes (Kernel.php) — Penting
+2.5 Middleware Changes (Kernel.php)
 Laravel 10 memakai Kernel yang lebih sederhana dan beberapa middleware diganti/dipindah.
 
     Perubahan penting pada Kernel.php
